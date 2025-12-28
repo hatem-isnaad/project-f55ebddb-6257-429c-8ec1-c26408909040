@@ -6,7 +6,11 @@ import {
   Settings, 
   LogOut,
   User,
-  Calendar
+  Calendar,
+  Building2,
+  Users,
+  Shield,
+  CalendarDays
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -26,10 +30,13 @@ import { cn } from "@/lib/utils";
 
 const mainMenuItems = [
   { title: "الرئيسية", url: "/dashboard", icon: LayoutDashboard },
-  { title: "الحضور", url: "/dashboard/attendance", icon: Clock },
+  { title: "لوحة المدير", url: "/dashboard/admin", icon: Shield },
+  { title: "الشركات", url: "/dashboard/companies", icon: Building2 },
+  { title: "الموظفين", url: "/dashboard/employees", icon: Users },
   { title: "المهام", url: "/dashboard/tasks", icon: ListTodo },
+  { title: "الحضور", url: "/dashboard/attendance", icon: Clock },
+  { title: "الإجازات", url: "/dashboard/leaves", icon: CalendarDays },
   { title: "التقارير", url: "/dashboard/reports", icon: BarChart3 },
-  { title: "الجدول", url: "/dashboard/schedule", icon: Calendar },
 ];
 
 const settingsItems = [
@@ -49,7 +56,7 @@ export function DashboardSidebar() {
       collapsible="icon"
     >
       <SidebarHeader className="p-4 border-b border-border">
-        <div className="flex items-center gap-3">
+        <NavLink to="/" className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-soft flex-shrink-0">
             <Clock className="w-5 h-5 text-primary-foreground" />
           </div>
@@ -59,7 +66,7 @@ export function DashboardSidebar() {
               <p className="text-xs text-muted-foreground">لوحة التحكم</p>
             </div>
           )}
-        </div>
+        </NavLink>
       </SidebarHeader>
 
       <SidebarContent className="py-4">
@@ -74,7 +81,7 @@ export function DashboardSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink 
                       to={item.url} 
-                      end
+                      end={item.url === "/dashboard"}
                       className={cn(
                         "flex items-center gap-3 px-4 py-2.5 rounded-lg mx-2 transition-all duration-200",
                         isActive(item.url) 
@@ -132,7 +139,7 @@ export function DashboardSidebar() {
           {!collapsed && (
             <div className="flex-1 min-w-0">
               <p className="font-medium text-foreground text-sm truncate">أحمد محمد</p>
-              <p className="text-xs text-muted-foreground truncate">مطور برمجيات</p>
+              <p className="text-xs text-muted-foreground truncate">مدير النظام</p>
             </div>
           )}
           {!collapsed && (
