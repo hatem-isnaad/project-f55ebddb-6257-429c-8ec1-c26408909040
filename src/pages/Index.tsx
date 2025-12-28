@@ -10,13 +10,13 @@ const Index = () => {
   return (
     <HelmetProvider>
       <Helmet>
-        <title>بصمة تك | منصة إدارة الوقت والحضور الذكية</title>
+        <title>دوام | منصة إدارة الوقت والحضور الذكية</title>
         <meta 
           name="description" 
-          content="منصة بصمة تك لإدارة الوقت والحضور والانصراف. تتبع GPS، إدارة المهام، تقارير شاملة. ابدأ تجربتك المجانية الآن." 
+          content="منصة دوام لإدارة الوقت والحضور والانصراف. تتبع GPS، إدارة المهام، تقارير شاملة. ابدأ تجربتك المجانية الآن." 
         />
         <meta name="keywords" content="إدارة الوقت، حضور وانصراف، تتبع الموظفين، GPS، إدارة المهام، تقارير الإنتاجية" />
-        <link rel="canonical" href="https://basmatech.com" />
+        <link rel="canonical" href="https://dawam.app" />
       </Helmet>
 
       <div className="min-h-screen bg-background">
