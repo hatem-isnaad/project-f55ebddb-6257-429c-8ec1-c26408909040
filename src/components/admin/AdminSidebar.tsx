@@ -11,8 +11,8 @@ import {
   CalendarDays,
   UserPlus,
   Cog,
-  ChevronLeft,
-  ChevronRight
+  PanelRightClose,
+  PanelRightOpen
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -94,41 +94,35 @@ export function AdminSidebar() {
 
   return (
     <Sidebar 
-      className={cn(
-        "border-l border-border bg-card h-screen sticky top-0 transition-all duration-300",
-        collapsed ? "w-[4rem]" : "w-[16rem]"
-      )}
+      className="border-l border-border bg-card"
       collapsible="icon"
       side="right"
     >
       <SidebarHeader className="p-4 border-b border-border">
-        <div className="flex items-center justify-between">
-          <NavLink to="/admin" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl gradient-admin flex items-center justify-center shadow-admin flex-shrink-0">
-              <Shield className="w-5 h-5 text-admin-foreground" />
-            </div>
-            {!collapsed && (
-              <div>
-                <span className="text-lg font-bold text-foreground">دوام</span>
-                <p className="text-xs text-admin">المدير العام</p>
-              </div>
-            )}
-          </NavLink>
+        <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleSidebar}
-            className={cn(
-              "h-8 w-8 rounded-full hover:bg-admin-light transition-colors",
-              collapsed && "absolute -left-4 top-6 bg-card border border-border shadow-sm"
-            )}
+            className="h-8 w-8 hover:bg-admin-light transition-colors flex-shrink-0"
           >
             {collapsed ? (
-              <ChevronLeft className="w-4 h-4" />
+              <PanelRightOpen className="w-5 h-5 text-admin" />
             ) : (
-              <ChevronRight className="w-4 h-4" />
+              <PanelRightClose className="w-5 h-5 text-admin" />
             )}
           </Button>
+          {!collapsed && (
+            <NavLink to="/admin" className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl gradient-admin flex items-center justify-center shadow-admin flex-shrink-0">
+                <Shield className="w-5 h-5 text-admin-foreground" />
+              </div>
+              <div>
+                <span className="text-lg font-bold text-foreground">دوام</span>
+                <p className="text-xs text-admin">المدير العام</p>
+              </div>
+            </NavLink>
+          )}
         </div>
       </SidebarHeader>
 
