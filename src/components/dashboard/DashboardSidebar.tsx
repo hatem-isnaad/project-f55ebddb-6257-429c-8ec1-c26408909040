@@ -54,6 +54,7 @@ export function DashboardSidebar() {
     <Sidebar 
       className="border-l border-border bg-card h-screen sticky top-0"
       collapsible="icon"
+      side="right"
     >
       <SidebarHeader className="p-4 border-b border-border">
         <NavLink to="/" className="flex items-center gap-3">
