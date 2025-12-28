@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -53,8 +54,12 @@ const Header = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Button variant="ghost">تسجيل الدخول</Button>
-            <Button variant="hero">ابدأ مجاناً</Button>
+            <Button variant="ghost" asChild>
+              <Link to="/dashboard">تسجيل الدخول</Link>
+            </Button>
+            <Button variant="hero" asChild>
+              <Link to="/dashboard">ابدأ مجاناً</Link>
+            </Button>
           </motion.div>
 
           {/* Mobile Menu Button */}
@@ -89,8 +94,12 @@ const Header = () => {
                 </a>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-border">
-                <Button variant="outline" className="w-full">تسجيل الدخول</Button>
-                <Button variant="hero" className="w-full">ابدأ مجاناً</Button>
+                <Button variant="outline" className="w-full" asChild>
+                  <Link to="/dashboard">تسجيل الدخول</Link>
+                </Button>
+                <Button variant="hero" className="w-full" asChild>
+                  <Link to="/dashboard">ابدأ مجاناً</Link>
+                </Button>
               </div>
             </nav>
           </motion.div>
