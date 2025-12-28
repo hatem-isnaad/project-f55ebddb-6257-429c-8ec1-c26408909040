@@ -37,15 +37,15 @@ const Footer = () => {
               <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
                 <Clock className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold">بصمة تك</span>
+              <span className="text-xl font-bold">دوام</span>
             </div>
             <p className="text-background/70 mb-6 text-sm leading-relaxed">
               منصة متكاملة لإدارة الوقت والحضور والانصراف، مصممة لتبسيط العمليات وزيادة إنتاجية الفرق
             </p>
             <div className="space-y-3">
-              <a href="mailto:info@basmatech.com" className="flex items-center gap-2 text-background/70 hover:text-background transition-colors text-sm">
+              <a href="mailto:info@dawam.app" className="flex items-center gap-2 text-background/70 hover:text-background transition-colors text-sm">
                 <Mail className="w-4 h-4" />
-                <span>info@basmatech.com</span>
+                <span>info@dawam.app</span>
               </a>
               <a href="tel:+966500000000" className="flex items-center gap-2 text-background/70 hover:text-background transition-colors text-sm">
                 <Phone className="w-4 h-4" />
@@ -115,7 +115,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-background/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-background/60 text-sm">
-            © 2024 بصمة تك. جميع الحقوق محفوظة.
+            © 2024 دوام. جميع الحقوق محفوظة.
           </p>
           <div className="flex items-center gap-4">
             <a href="#" className="w-8 h-8 rounded-full bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors">

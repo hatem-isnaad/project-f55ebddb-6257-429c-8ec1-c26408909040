@@ -55,7 +55,7 @@ export function DashboardSidebar() {
           </div>
           {!collapsed && (
             <div>
-              <span className="text-lg font-bold text-foreground">بصمة تك</span>
+              <span className="text-lg font-bold text-foreground">دوام</span>
               <p className="text-xs text-muted-foreground">لوحة التحكم</p>
             </div>
           )}
