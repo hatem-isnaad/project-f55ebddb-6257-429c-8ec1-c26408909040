@@ -1,6 +1,5 @@
-import { Bell, Search, Menu, User, Shield } from "lucide-react";
+import { Bell, Search, User, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,7 +13,7 @@ import { Link } from "react-router-dom";
 import { mockNotifications } from "@/data/mockData";
 
 export function AdminHeader() {
-  const today = new Date().toLocaleDateString('ar-SA', { 
+  const today = new Date().toLocaleDateString('en-US', { 
     weekday: 'long', 
     year: 'numeric', 
     month: 'long', 
@@ -27,17 +26,12 @@ export function AdminHeader() {
     <header className="sticky top-0 z-40 bg-card/95 backdrop-blur-lg border-b border-border">
       <div className="flex items-center justify-between h-16 px-4 lg:px-6">
         <div className="flex items-center gap-4">
-          <SidebarTrigger>
-            <Button variant="ghost" size="icon">
-              <Menu className="w-5 h-5" />
-            </Button>
-          </SidebarTrigger>
           <div className="flex items-center gap-2">
-            <Badge variant="destructive" className="gap-1">
+            <Badge className="gap-1 bg-admin hover:bg-admin/90 text-admin-foreground">
               <Shield className="w-3 h-3" />
               وضع المدير العام
             </Badge>
-            <span className="text-sm text-muted-foreground hidden md:inline">{today}</span>
+            <span className="text-sm text-muted-foreground hidden md:inline en-num">{today}</span>
           </div>
         </div>
 
@@ -48,14 +42,18 @@ export function AdminHeader() {
             <input 
               type="text" 
               placeholder="بحث..." 
-              className="bg-transparent border-none outline-none text-sm w-40 placeholder:text-muted-foreground"
+              className="bg-transparent border-none outline-none text-sm w-40 placeholder:text-muted-foreground focus:ring-0"
             />
           </div>
 
           {/* Impersonate */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="gap-2 border-admin/30 text-admin hover:bg-admin/10 hover:text-admin hover:border-admin/50 transition-colors"
+              >
                 <User className="w-4 h-4" />
                 <span className="hidden md:inline">انتحال هوية</span>
               </Button>
@@ -63,13 +61,13 @@ export function AdminHeader() {
             <DropdownMenuContent align="end" className="w-56">
               <div className="p-2 text-sm font-semibold">الدخول كـ</div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-secondary">
                 <Link to="/">مالك شركة - أحمد محمد</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-secondary">
                 <Link to="/">مدير - سارة علي</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-secondary">
                 <Link to="/">موظف - خالد العمري</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -78,10 +76,10 @@ export function AdminHeader() {
           {/* Notifications */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="icon" className="relative hover:bg-admin/10">
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground rounded-full text-xs flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground rounded-full text-xs flex items-center justify-center en-num">
                     {unreadCount}
                   </span>
                 )}
@@ -90,7 +88,7 @@ export function AdminHeader() {
             <DropdownMenuContent align="end" className="w-80">
               <div className="p-2 font-semibold border-b">الإشعارات</div>
               {mockNotifications.slice(0, 3).map((notification) => (
-                <DropdownMenuItem key={notification.id} className="flex flex-col items-start gap-1 p-3">
+                <DropdownMenuItem key={notification.id} className="flex flex-col items-start gap-1 p-3 cursor-pointer hover:bg-secondary">
                   <span className="font-medium">{notification.title}</span>
                   <span className="text-xs text-muted-foreground">{notification.message}</span>
                 </DropdownMenuItem>
@@ -101,9 +99,9 @@ export function AdminHeader() {
           {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Avatar className="w-8 h-8">
-                  <AvatarFallback className="bg-destructive/10 text-destructive text-sm">
+              <Button variant="ghost" size="icon" className="hover:bg-admin/10">
+                <Avatar className="w-8 h-8 ring-2 ring-admin/20">
+                  <AvatarFallback className="bg-admin/10 text-admin text-sm">
                     <Shield className="w-4 h-4" />
                   </AvatarFallback>
                 </Avatar>
@@ -115,9 +113,11 @@ export function AdminHeader() {
                 <p className="text-xs text-muted-foreground">Super Admin</p>
               </div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>إعدادات النظام</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer hover:bg-secondary">إعدادات النظام</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive">تسجيل الخروج</DropdownMenuItem>
+              <DropdownMenuItem className="text-destructive cursor-pointer hover:bg-destructive/10 hover:text-destructive">
+                تسجيل الخروج
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

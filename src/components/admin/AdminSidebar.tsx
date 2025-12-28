@@ -10,8 +10,9 @@ import {
   ListTodo,
   CalendarDays,
   UserPlus,
-  FileText,
-  Cog
+  Cog,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 const adminMenuItems = [
   { title: "نظرة عامة", url: "/admin", icon: Activity },
@@ -48,7 +50,7 @@ const settingsItems = [
 ];
 
 export function AdminSidebar() {
-  const { state } = useSidebar();
+  const { state, toggleSidebar } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
 
@@ -64,11 +66,11 @@ export function AdminSidebar() {
         to={item.url} 
         end={item.url === "/admin"}
         className={cn(
-          "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
-          collapsed ? "justify-center mx-1" : "mx-2",
+          "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 w-full",
+          collapsed ? "justify-center" : "",
           active 
             ? "bg-admin text-admin-foreground shadow-admin" 
-            : "text-muted-foreground hover:bg-admin-sidebar-hover hover:text-foreground"
+            : "text-muted-foreground hover:bg-admin-light hover:text-foreground"
         )}
       >
         <item.icon className="w-5 h-5 flex-shrink-0" />
@@ -92,36 +94,56 @@ export function AdminSidebar() {
 
   return (
     <Sidebar 
-      className="border-l border-border bg-card h-screen sticky top-0"
+      className={cn(
+        "border-l border-border bg-card h-screen sticky top-0 transition-all duration-300",
+        collapsed ? "w-[4rem]" : "w-[16rem]"
+      )}
       collapsible="icon"
       side="right"
     >
       <SidebarHeader className="p-4 border-b border-border">
-        <NavLink to="/admin" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl gradient-admin flex items-center justify-center shadow-admin flex-shrink-0">
-            <Shield className="w-5 h-5 text-admin-foreground" />
-          </div>
-          {!collapsed && (
-            <div>
-              <span className="text-lg font-bold text-foreground">دوام</span>
-              <p className="text-xs text-admin">المدير العام</p>
+        <div className="flex items-center justify-between">
+          <NavLink to="/admin" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl gradient-admin flex items-center justify-center shadow-admin flex-shrink-0">
+              <Shield className="w-5 h-5 text-admin-foreground" />
             </div>
-          )}
-        </NavLink>
+            {!collapsed && (
+              <div>
+                <span className="text-lg font-bold text-foreground">دوام</span>
+                <p className="text-xs text-admin">المدير العام</p>
+              </div>
+            )}
+          </NavLink>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            className={cn(
+              "h-8 w-8 rounded-full hover:bg-admin-light transition-colors",
+              collapsed && "absolute -left-4 top-6 bg-card border border-border shadow-sm"
+            )}
+          >
+            {collapsed ? (
+              <ChevronLeft className="w-4 h-4" />
+            ) : (
+              <ChevronRight className="w-4 h-4" />
+            )}
+          </Button>
+        </div>
       </SidebarHeader>
 
-      <SidebarContent className="py-4">
+      <SidebarContent className="py-4 px-2">
         <SidebarGroup>
           {!collapsed && (
-            <SidebarGroupLabel className="text-xs text-muted-foreground px-4 mb-2">
+            <SidebarGroupLabel className="text-xs text-muted-foreground px-3 mb-2 font-semibold">
               إدارة النظام
             </SidebarGroupLabel>
           )}
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {adminMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="p-0 h-auto">
+                  <SidebarMenuButton asChild className="p-0 h-auto hover:bg-transparent">
                     <SidebarLink item={item} />
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -130,17 +152,17 @@ export function AdminSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup className="mt-4">
+        <SidebarGroup className="mt-6">
           {!collapsed && (
-            <SidebarGroupLabel className="text-xs text-muted-foreground px-4 mb-2">
+            <SidebarGroupLabel className="text-xs text-muted-foreground px-3 mb-2 font-semibold">
               الإعدادات
             </SidebarGroupLabel>
           )}
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {settingsItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="p-0 h-auto">
+                  <SidebarMenuButton asChild className="p-0 h-auto hover:bg-transparent">
                     <SidebarLink item={item} />
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -155,7 +177,7 @@ export function AdminSidebar() {
           "flex items-center gap-3",
           collapsed && "justify-center"
         )}>
-          <div className="w-10 h-10 rounded-full bg-admin/10 flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 rounded-full bg-admin/10 flex items-center justify-center flex-shrink-0 ring-2 ring-admin/20">
             <Shield className="w-5 h-5 text-admin" />
           </div>
           {!collapsed && (
@@ -164,9 +186,19 @@ export function AdminSidebar() {
                 <p className="font-medium text-foreground text-sm truncate">المدير العام</p>
                 <p className="text-xs text-muted-foreground truncate">Super Admin</p>
               </div>
-              <NavLink to="/" className="p-2 rounded-lg hover:bg-destructive/10 text-destructive transition-colors">
-                <LogOut className="w-4 h-4" />
-              </NavLink>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <NavLink 
+                    to="/" 
+                    className="p-2 rounded-lg hover:bg-destructive/10 text-destructive transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </NavLink>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="font-cairo">
+                  تسجيل الخروج
+                </TooltipContent>
+              </Tooltip>
             </>
           )}
         </div>
