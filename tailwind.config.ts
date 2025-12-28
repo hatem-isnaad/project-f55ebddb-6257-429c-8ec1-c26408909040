@@ -75,6 +75,7 @@ export default {
         company: {
           DEFAULT: "hsl(var(--company-primary))",
           hover: "hsl(var(--company-primary-hover))",
+          light: "hsl(var(--company-primary-light))",
           foreground: "hsl(var(--company-primary-foreground))",
           sidebar: "hsl(var(--company-sidebar))",
           "sidebar-hover": "hsl(var(--company-sidebar-hover))",
@@ -84,6 +85,7 @@ export default {
         admin: {
           DEFAULT: "hsl(var(--admin-primary))",
           hover: "hsl(var(--admin-primary-hover))",
+          light: "hsl(var(--admin-primary-light))",
           foreground: "hsl(var(--admin-primary-foreground))",
           sidebar: "hsl(var(--admin-sidebar))",
           "sidebar-hover": "hsl(var(--admin-sidebar-hover))",

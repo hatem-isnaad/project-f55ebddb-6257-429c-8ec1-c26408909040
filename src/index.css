@@ -6,73 +6,78 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    --background: 0 0% 98%;
+    --foreground: 240 10% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 240 10% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 240 10% 10%;
 
-    --primary: 217 91% 50%;
+    /* Company Primary - Emerald/Teal */
+    --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 160 20% 95%;
+    --secondary-foreground: 240 10% 10%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 160 10% 94%;
+    --muted-foreground: 240 5% 45%;
 
-    --accent: 186 91% 45%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 43 96% 56%;
+    --accent-foreground: 240 10% 10%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 91% 50%;
+    --border: 160 15% 90%;
+    --input: 160 15% 90%;
+    --ring: 160 84% 39%;
 
     --radius: 0.75rem;
 
-    /* Company Dashboard Colors - Blue Theme */
-    --company-primary: 217 91% 50%;
-    --company-primary-hover: 217 91% 45%;
+    /* Company Dashboard Colors - Emerald Theme */
+    --company-primary: 160 84% 39%;
+    --company-primary-hover: 160 84% 32%;
+    --company-primary-light: 160 84% 95%;
     --company-primary-foreground: 0 0% 100%;
     --company-sidebar: 0 0% 100%;
-    --company-sidebar-hover: 217 91% 97%;
-    --company-sidebar-active: 217 91% 50%;
+    --company-sidebar-hover: 160 40% 96%;
+    --company-sidebar-active: 160 84% 39%;
     --company-sidebar-active-foreground: 0 0% 100%;
 
-    /* Admin Dashboard Colors - Indigo/Purple Theme */
-    --admin-primary: 263 70% 50%;
-    --admin-primary-hover: 263 70% 45%;
+    /* Admin Dashboard Colors - Violet/Purple Theme */
+    --admin-primary: 270 70% 55%;
+    --admin-primary-hover: 270 70% 48%;
+    --admin-primary-light: 270 70% 96%;
     --admin-primary-foreground: 0 0% 100%;
     --admin-sidebar: 0 0% 100%;
-    --admin-sidebar-hover: 263 70% 97%;
-    --admin-sidebar-active: 263 70% 50%;
+    --admin-sidebar-hover: 270 40% 96%;
+    --admin-sidebar-active: 270 70% 55%;
     --admin-sidebar-active-foreground: 0 0% 100%;
 
-    /* Custom tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 50%), hsl(186 91% 45%));
-    --gradient-admin: linear-gradient(135deg, hsl(263 70% 50%), hsl(290 70% 50%));
-    --gradient-hero: linear-gradient(180deg, hsl(210 20% 98%) 0%, hsl(217 91% 97%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 40% 98%) 100%);
+    /* Custom gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));
+    --gradient-admin: linear-gradient(135deg, hsl(270 70% 55%), hsl(290 70% 50%));
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 98%) 0%, hsl(160 40% 97%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(160 20% 98%) 100%);
     
-    --shadow-soft: 0 4px 20px -4px hsl(217 91% 50% / 0.15);
-    --shadow-glow: 0 0 40px hsl(186 91% 45% / 0.2);
-    --shadow-card: 0 8px 32px -8px hsl(222 47% 11% / 0.1);
-    --shadow-admin: 0 4px 20px -4px hsl(263 70% 50% / 0.15);
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(160 84% 39% / 0.2);
+    --shadow-glow: 0 0 40px hsl(160 84% 39% / 0.15);
+    --shadow-card: 0 8px 32px -8px hsl(240 10% 10% / 0.08);
+    --shadow-admin: 0 4px 20px -4px hsl(270 70% 55% / 0.2);
 
+    /* Sidebar */
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 217 91% 50%;
+    --sidebar-foreground: 240 10% 10%;
+    --sidebar-primary: 160 84% 39%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 40% 96%;
-    --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 214 32% 91%;
-    --sidebar-ring: 217 91% 50%;
+    --sidebar-accent: 160 20% 95%;
+    --sidebar-accent-foreground: 240 10% 10%;
+    --sidebar-border: 160 15% 90%;
+    --sidebar-ring: 160 84% 39%;
 
     /* Status colors */
     --success: 142 76% 36%;
@@ -83,93 +88,96 @@
     --info-foreground: 0 0% 100%;
 
     /* Kanban Colors */
-    --kanban-pending: 210 40% 96%;
-    --kanban-pending-border: 214 32% 85%;
-    --kanban-progress: 38 92% 95%;
-    --kanban-progress-border: 38 92% 70%;
+    --kanban-pending: 0 0% 96%;
+    --kanban-pending-border: 0 0% 85%;
+    --kanban-progress: 43 96% 95%;
+    --kanban-progress-border: 43 96% 65%;
     --kanban-completed: 142 76% 95%;
     --kanban-completed-border: 142 76% 50%;
   }
 
   .dark {
-    --background: 222 47% 8%;
-    --foreground: 210 40% 98%;
+    --background: 240 10% 6%;
+    --foreground: 0 0% 95%;
 
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
+    --card: 240 10% 9%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 240 10% 9%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
+    /* Company Primary - Emerald/Teal Dark */
+    --primary: 160 84% 45%;
+    --primary-foreground: 240 10% 6%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 160 20% 15%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 160 15% 15%;
+    --muted-foreground: 160 10% 60%;
 
-    --accent: 186 91% 50%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 43 96% 50%;
+    --accent-foreground: 240 10% 6%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 0 0% 95%;
 
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 217 91% 60%;
+    --border: 160 15% 18%;
+    --input: 160 15% 18%;
+    --ring: 160 84% 45%;
 
-    /* Company Dashboard Colors - Blue Theme Dark */
-    --company-primary: 217 91% 60%;
-    --company-primary-hover: 217 91% 55%;
-    --company-primary-foreground: 222 47% 11%;
-    --company-sidebar: 222 47% 11%;
-    --company-sidebar-hover: 217 33% 20%;
-    --company-sidebar-active: 217 91% 60%;
-    --company-sidebar-active-foreground: 222 47% 11%;
+    /* Company Dashboard Colors - Emerald Theme Dark */
+    --company-primary: 160 84% 45%;
+    --company-primary-hover: 160 84% 40%;
+    --company-primary-light: 160 40% 15%;
+    --company-primary-foreground: 240 10% 6%;
+    --company-sidebar: 240 10% 9%;
+    --company-sidebar-hover: 160 30% 15%;
+    --company-sidebar-active: 160 84% 45%;
+    --company-sidebar-active-foreground: 240 10% 6%;
 
-    /* Admin Dashboard Colors - Indigo/Purple Theme Dark */
-    --admin-primary: 263 70% 60%;
-    --admin-primary-hover: 263 70% 55%;
-    --admin-primary-foreground: 222 47% 11%;
-    --admin-sidebar: 222 47% 11%;
-    --admin-sidebar-hover: 263 33% 20%;
-    --admin-sidebar-active: 263 70% 60%;
-    --admin-sidebar-active-foreground: 222 47% 11%;
+    /* Admin Dashboard Colors - Violet/Purple Theme Dark */
+    --admin-primary: 270 70% 60%;
+    --admin-primary-hover: 270 70% 55%;
+    --admin-primary-light: 270 40% 15%;
+    --admin-primary-foreground: 240 10% 6%;
+    --admin-sidebar: 240 10% 9%;
+    --admin-sidebar-hover: 270 30% 15%;
+    --admin-sidebar-active: 270 70% 60%;
+    --admin-sidebar-active-foreground: 240 10% 6%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(186 91% 50%));
-    --gradient-admin: linear-gradient(135deg, hsl(263 70% 60%), hsl(290 70% 60%));
-    --gradient-hero: linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 47% 12%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(222 47% 11%) 0%, hsl(222 47% 14%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(160 84% 45%), hsl(160 84% 35%));
+    --gradient-admin: linear-gradient(135deg, hsl(270 70% 60%), hsl(290 70% 55%));
+    --gradient-hero: linear-gradient(180deg, hsl(240 10% 6%) 0%, hsl(240 10% 10%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(240 10% 9%) 0%, hsl(240 10% 12%) 100%);
 
-    --shadow-soft: 0 4px 20px -4px hsl(217 91% 60% / 0.2);
-    --shadow-glow: 0 0 40px hsl(186 91% 50% / 0.15);
-    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.3);
-    --shadow-admin: 0 4px 20px -4px hsl(263 70% 60% / 0.2);
+    --shadow-soft: 0 4px 20px -4px hsl(160 84% 45% / 0.25);
+    --shadow-glow: 0 0 40px hsl(160 84% 45% / 0.2);
+    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.4);
+    --shadow-admin: 0 4px 20px -4px hsl(270 70% 60% / 0.25);
 
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 222 47% 11%;
-    --sidebar-accent: 217 33% 17%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217 33% 17%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-background: 240 10% 9%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 160 84% 45%;
+    --sidebar-primary-foreground: 240 10% 6%;
+    --sidebar-accent: 160 20% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 160 15% 18%;
+    --sidebar-ring: 160 84% 45%;
 
     --success: 142 76% 46%;
-    --success-foreground: 222 47% 11%;
+    --success-foreground: 240 10% 6%;
     --warning: 38 92% 55%;
-    --warning-foreground: 222 47% 11%;
+    --warning-foreground: 240 10% 6%;
     --info: 199 89% 55%;
-    --info-foreground: 222 47% 11%;
+    --info-foreground: 240 10% 6%;
 
     /* Kanban Colors Dark */
-    --kanban-pending: 217 33% 17%;
-    --kanban-pending-border: 217 33% 30%;
-    --kanban-progress: 38 30% 20%;
-    --kanban-progress-border: 38 60% 40%;
-    --kanban-completed: 142 30% 20%;
+    --kanban-pending: 240 10% 12%;
+    --kanban-pending-border: 240 10% 25%;
+    --kanban-progress: 43 40% 15%;
+    --kanban-progress-border: 43 60% 40%;
+    --kanban-completed: 142 40% 15%;
     --kanban-completed-border: 142 60% 40%;
   }
 }
@@ -246,5 +254,10 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Focus ring styles */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 }
