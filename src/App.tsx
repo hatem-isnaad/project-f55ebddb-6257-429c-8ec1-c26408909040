@@ -4,33 +4,30 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import Dashboard from "./pages/Dashboard";
-import { DashboardLayout } from "./layouts/DashboardLayout";
 import NotFound from "./pages/NotFound";
 
-// Admin Pages
-import SuperAdminDashboard from "./pages/admin/SuperAdminDashboard";
-
-// Employee Pages
-import EmployeesPage from "./pages/employees/EmployeesPage";
-
-// Task Pages
-import TasksPage from "./pages/tasks/TasksPage";
-
-// Attendance Pages
-import AttendancePage from "./pages/attendance/AttendancePage";
+// Layouts
+import { AdminLayout } from "./layouts/AdminLayout";
+import { CompanyLayout } from "./layouts/CompanyLayout";
 
 // Company Pages
-import CompaniesPage from "./pages/companies/CompaniesPage";
+import CompanyDashboard from "./pages/company/CompanyDashboard";
+import SubCompaniesPage from "./pages/company/SubCompaniesPage";
+import EmployeesPage from "./pages/company/EmployeesPage";
+import AddEmployeePage from "./pages/company/AddEmployeePage";
+import TasksPage from "./pages/company/TasksPage";
+import AttendancePage from "./pages/company/AttendancePage";
+import LeavesPage from "./pages/company/LeavesPage";
+import ReportsPage from "./pages/company/ReportsPage";
+import CompanySettingsPage from "./pages/company/CompanySettingsPage";
 
-// Leave Pages
-import LeavesPage from "./pages/leaves/LeavesPage";
-
-// Reports Pages
-import ReportsPage from "./pages/reports/ReportsPage";
-
-// Settings Pages
-import SettingsPage from "./pages/settings/SettingsPage";
+// Admin Pages
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminCompaniesPage from "./pages/admin/AdminCompaniesPage";
+import AddCompanyPage from "./pages/admin/AddCompanyPage";
+import AdminUsersPage from "./pages/admin/AdminUsersPage";
+import AdminReportsPage from "./pages/admin/AdminReportsPage";
+import AdminSettingsPage from "./pages/admin/AdminSettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -41,19 +38,33 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="admin" element={<SuperAdminDashboard />} />
-            <Route path="companies" element={<CompaniesPage />} />
+          {/* Landing Page */}
+          <Route path="/landing" element={<Index />} />
+          
+          {/* Company Owner / Employee Dashboard - starts with / */}
+          <Route path="/" element={<CompanyLayout />}>
+            <Route index element={<CompanyDashboard />} />
+            <Route path="sub-companies" element={<SubCompaniesPage />} />
             <Route path="employees" element={<EmployeesPage />} />
+            <Route path="employees/new" element={<AddEmployeePage />} />
             <Route path="tasks" element={<TasksPage />} />
             <Route path="attendance" element={<AttendancePage />} />
             <Route path="leaves" element={<LeavesPage />} />
             <Route path="reports" element={<ReportsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
+            <Route path="settings" element={<CompanySettingsPage />} />
           </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
+          {/* Super Admin Dashboard - starts with /admin */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="companies" element={<AdminCompaniesPage />} />
+            <Route path="companies/new" element={<AddCompanyPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
+            <Route path="reports" element={<AdminReportsPage />} />
+            <Route path="settings" element={<AdminSettingsPage />} />
+          </Route>
+
+          {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
