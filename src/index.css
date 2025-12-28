@@ -15,9 +15,11 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 10%;
 
-    /* Company Primary - Emerald/Teal */
+    /* Primary - Emerald/Teal - Unified across all dashboards */
     --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
+    --primary-hover: 160 84% 32%;
+    --primary-light: 160 84% 95%;
 
     --secondary: 160 20% 95%;
     --secondary-foreground: 240 10% 10%;
@@ -37,39 +39,7 @@
 
     --radius: 0.75rem;
 
-    /* Company Dashboard Colors - Emerald Theme */
-    --company-primary: 160 84% 39%;
-    --company-primary-hover: 160 84% 32%;
-    --company-primary-light: 160 84% 95%;
-    --company-primary-foreground: 0 0% 100%;
-    --company-sidebar: 0 0% 100%;
-    --company-sidebar-hover: 160 40% 96%;
-    --company-sidebar-active: 160 84% 39%;
-    --company-sidebar-active-foreground: 0 0% 100%;
-
-    /* Admin Dashboard Colors - Violet/Purple Theme */
-    --admin-primary: 270 70% 55%;
-    --admin-primary-hover: 270 70% 48%;
-    --admin-primary-light: 270 70% 96%;
-    --admin-primary-foreground: 0 0% 100%;
-    --admin-sidebar: 0 0% 100%;
-    --admin-sidebar-hover: 270 40% 96%;
-    --admin-sidebar-active: 270 70% 55%;
-    --admin-sidebar-active-foreground: 0 0% 100%;
-
-    /* Custom gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));
-    --gradient-admin: linear-gradient(135deg, hsl(270 70% 55%), hsl(290 70% 50%));
-    --gradient-hero: linear-gradient(180deg, hsl(0 0% 98%) 0%, hsl(160 40% 97%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(160 20% 98%) 100%);
-    
-    /* Shadows */
-    --shadow-soft: 0 4px 20px -4px hsl(160 84% 39% / 0.2);
-    --shadow-glow: 0 0 40px hsl(160 84% 39% / 0.15);
-    --shadow-card: 0 8px 32px -8px hsl(240 10% 10% / 0.08);
-    --shadow-admin: 0 4px 20px -4px hsl(270 70% 55% / 0.2);
-
-    /* Sidebar */
+    /* Sidebar - Unified */
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 10% 10%;
     --sidebar-primary: 160 84% 39%;
@@ -78,6 +48,19 @@
     --sidebar-accent-foreground: 240 10% 10%;
     --sidebar-border: 160 15% 90%;
     --sidebar-ring: 160 84% 39%;
+    --sidebar-hover: 160 40% 96%;
+    --sidebar-active: 160 84% 39%;
+    --sidebar-active-foreground: 0 0% 100%;
+
+    /* Custom gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 98%) 0%, hsl(160 40% 97%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(160 20% 98%) 100%);
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(160 84% 39% / 0.2);
+    --shadow-glow: 0 0 40px hsl(160 84% 39% / 0.15);
+    --shadow-card: 0 8px 32px -8px hsl(240 10% 10% / 0.08);
 
     /* Status colors */
     --success: 142 76% 36%;
@@ -106,9 +89,11 @@
     --popover: 240 10% 9%;
     --popover-foreground: 0 0% 95%;
 
-    /* Company Primary - Emerald/Teal Dark */
+    /* Primary - Emerald/Teal Dark - Unified */
     --primary: 160 84% 45%;
     --primary-foreground: 240 10% 6%;
+    --primary-hover: 160 84% 40%;
+    --primary-light: 160 40% 15%;
 
     --secondary: 160 20% 15%;
     --secondary-foreground: 0 0% 95%;
@@ -126,36 +111,7 @@
     --input: 160 15% 18%;
     --ring: 160 84% 45%;
 
-    /* Company Dashboard Colors - Emerald Theme Dark */
-    --company-primary: 160 84% 45%;
-    --company-primary-hover: 160 84% 40%;
-    --company-primary-light: 160 40% 15%;
-    --company-primary-foreground: 240 10% 6%;
-    --company-sidebar: 240 10% 9%;
-    --company-sidebar-hover: 160 30% 15%;
-    --company-sidebar-active: 160 84% 45%;
-    --company-sidebar-active-foreground: 240 10% 6%;
-
-    /* Admin Dashboard Colors - Violet/Purple Theme Dark */
-    --admin-primary: 270 70% 60%;
-    --admin-primary-hover: 270 70% 55%;
-    --admin-primary-light: 270 40% 15%;
-    --admin-primary-foreground: 240 10% 6%;
-    --admin-sidebar: 240 10% 9%;
-    --admin-sidebar-hover: 270 30% 15%;
-    --admin-sidebar-active: 270 70% 60%;
-    --admin-sidebar-active-foreground: 240 10% 6%;
-
-    --gradient-primary: linear-gradient(135deg, hsl(160 84% 45%), hsl(160 84% 35%));
-    --gradient-admin: linear-gradient(135deg, hsl(270 70% 60%), hsl(290 70% 55%));
-    --gradient-hero: linear-gradient(180deg, hsl(240 10% 6%) 0%, hsl(240 10% 10%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(240 10% 9%) 0%, hsl(240 10% 12%) 100%);
-
-    --shadow-soft: 0 4px 20px -4px hsl(160 84% 45% / 0.25);
-    --shadow-glow: 0 0 40px hsl(160 84% 45% / 0.2);
-    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.4);
-    --shadow-admin: 0 4px 20px -4px hsl(270 70% 60% / 0.25);
-
+    /* Sidebar - Unified Dark */
     --sidebar-background: 240 10% 9%;
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 160 84% 45%;
@@ -164,6 +120,17 @@
     --sidebar-accent-foreground: 0 0% 95%;
     --sidebar-border: 160 15% 18%;
     --sidebar-ring: 160 84% 45%;
+    --sidebar-hover: 160 30% 15%;
+    --sidebar-active: 160 84% 45%;
+    --sidebar-active-foreground: 240 10% 6%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(160 84% 45%), hsl(160 84% 35%));
+    --gradient-hero: linear-gradient(180deg, hsl(240 10% 6%) 0%, hsl(240 10% 10%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(240 10% 9%) 0%, hsl(240 10% 12%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px hsl(160 84% 45% / 0.25);
+    --shadow-glow: 0 0 40px hsl(160 84% 45% / 0.2);
+    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.4);
 
     --success: 142 76% 46%;
     --success-foreground: 240 10% 6%;
@@ -214,10 +181,6 @@
     background: var(--gradient-primary);
   }
   
-  .gradient-admin {
-    background: var(--gradient-admin);
-  }
-  
   .gradient-hero {
     background: var(--gradient-hero);
   }
@@ -238,19 +201,8 @@
     box-shadow: var(--shadow-card);
   }
 
-  .shadow-admin {
-    box-shadow: var(--shadow-admin);
-  }
-
   .text-gradient {
     background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-admin {
-    background: var(--gradient-admin);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -259,5 +211,11 @@
   /* Focus ring styles */
   .focus-ring {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* RTL specific utilities */
+  .rtl-space-x > * + * {
+    margin-right: 0.5rem;
+    margin-left: 0;
   }
 }

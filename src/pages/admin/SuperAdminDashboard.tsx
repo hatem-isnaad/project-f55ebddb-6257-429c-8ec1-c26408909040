@@ -91,13 +91,13 @@ const SuperAdminDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card className="relative overflow-hidden">
+            <Card className="relative overflow-hidden hover:shadow-soft transition-shadow">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div className={`p-2 rounded-lg bg-${stat.color}/10`}>
                     <stat.icon className={`w-5 h-5 text-${stat.color}`} />
                   </div>
-                  <div className={`flex items-center gap-1 text-xs ${
+                  <div className={`flex items-center gap-1 text-xs en-num ${
                     stat.changeType === 'positive' ? 'text-success' :
                     stat.changeType === 'negative' ? 'text-destructive' :
                     'text-muted-foreground'
@@ -108,7 +108,7 @@ const SuperAdminDashboard = () => {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-2xl font-bold text-foreground en-num">{stat.value}</p>
                   <p className="text-xs text-muted-foreground">{stat.title}</p>
                 </div>
               </CardContent>
@@ -121,8 +121,8 @@ const SuperAdminDashboard = () => {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg">الشركات المسجلة</CardTitle>
-          <Button size="sm">
-            <Building2 className="w-4 h-4 ml-2" />
+          <Button size="sm" className="bg-primary hover:bg-primary/90">
+            <Building2 className="w-4 h-4 me-2" />
             إضافة شركة
           </Button>
         </CardHeader>
@@ -130,17 +130,17 @@ const SuperAdminDashboard = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-right">الشركة</TableHead>
-                <TableHead className="text-right">الموقع</TableHead>
-                <TableHead className="text-right">الموظفين</TableHead>
-                <TableHead className="text-right">ساعات العمل</TableHead>
-                <TableHead className="text-right">الحالة</TableHead>
-                <TableHead className="text-right">إجراءات</TableHead>
+                <TableHead className="text-start">الشركة</TableHead>
+                <TableHead className="text-start">الموقع</TableHead>
+                <TableHead className="text-start">الموظفين</TableHead>
+                <TableHead className="text-start">ساعات العمل</TableHead>
+                <TableHead className="text-start">الحالة</TableHead>
+                <TableHead className="text-start">إجراءات</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {mockCompanies.map((company) => (
-                <TableRow key={company.id}>
+                <TableRow key={company.id} className="hover:bg-secondary/50">
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -156,37 +156,37 @@ const SuperAdminDashboard = () => {
                   </TableCell>
                   <TableCell className="text-muted-foreground">{company.address}</TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 en-num">
                       <Users className="w-4 h-4 text-muted-foreground" />
                       <span>{company.employeeCount}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="text-muted-foreground en-num">
                     {company.workingHours.start} - {company.workingHours.end}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={company.isActive ? "default" : "secondary"}>
+                    <Badge variant={company.isActive ? "default" : "secondary"} className={company.isActive ? "bg-success" : ""}>
                       {company.isActive ? "نشطة" : "معطلة"}
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" className="hover:bg-primary/10">
                           <MoreVertical className="w-4 h-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
-                          <Eye className="w-4 h-4 ml-2" />
+                        <DropdownMenuItem className="cursor-pointer hover:bg-secondary">
+                          <Eye className="w-4 h-4 me-2" />
                           عرض التفاصيل
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <BarChart3 className="w-4 h-4 ml-2" />
+                        <DropdownMenuItem className="cursor-pointer hover:bg-secondary">
+                          <BarChart3 className="w-4 h-4 me-2" />
                           التقارير
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Power className="w-4 h-4 ml-2" />
+                        <DropdownMenuItem className="cursor-pointer hover:bg-secondary">
+                          <Power className="w-4 h-4 me-2" />
                           {company.isActive ? "تعطيل" : "تفعيل"}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -215,7 +215,7 @@ const SuperAdminDashboard = () => {
                 <div key={item.label} className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{item.label}</span>
-                    <span className="font-medium">{item.value}%</span>
+                    <span className="font-medium en-num">{item.value}%</span>
                   </div>
                   <div className="h-2 bg-secondary rounded-full overflow-hidden">
                     <div 
@@ -236,7 +236,7 @@ const SuperAdminDashboard = () => {
           <CardContent>
             <div className="space-y-4">
               {mockCompanies.filter(c => c.isActive).map((company) => (
-                <div key={company.id} className="flex items-center justify-between p-3 bg-secondary/50 rounded-lg">
+                <div key={company.id} className="flex items-center justify-between p-3 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                       <Building2 className="w-4 h-4 text-primary" />
@@ -244,7 +244,7 @@ const SuperAdminDashboard = () => {
                     <span className="font-medium text-sm">{company.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">{Math.floor(Math.random() * 20) + 80}%</span>
+                    <span className="text-sm text-muted-foreground en-num">{Math.floor(Math.random() * 20) + 80}%</span>
                     <TrendingUp className="w-4 h-4 text-success" />
                   </div>
                 </div>

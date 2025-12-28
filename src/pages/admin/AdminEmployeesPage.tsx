@@ -4,16 +4,12 @@ import {
   Users, 
   Plus, 
   Search, 
-  Filter,
   MoreVertical,
-  Mail,
-  Phone,
-  Building2,
   Edit,
   Trash2,
   Eye
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -64,7 +60,7 @@ const AdminEmployeesPage = () => {
   });
 
   const stats = [
-    { label: "إجمالي الموظفين", value: mockEmployees.length, color: "admin" },
+    { label: "إجمالي الموظفين", value: mockEmployees.length, color: "primary" },
     { label: "نشط", value: mockEmployees.filter(e => e.isActive).length, color: "success" },
     { label: "غير نشط", value: mockEmployees.filter(e => !e.isActive).length, color: "muted" },
   ];
@@ -77,9 +73,9 @@ const AdminEmployeesPage = () => {
           <h1 className="text-2xl font-bold text-foreground">إدارة الموظفين</h1>
           <p className="text-muted-foreground">عرض وإدارة جميع موظفين النظام</p>
         </div>
-        <Button className="bg-admin hover:bg-admin-hover" asChild>
+        <Button className="bg-primary hover:bg-primary/90" asChild>
           <Link to="/admin/companies/add">
-            <Plus className="w-4 h-4 ml-2" />
+            <Plus className="w-4 h-4 me-2" />
             إضافة موظف
           </Link>
         </Button>
@@ -94,7 +90,7 @@ const AdminEmployeesPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card className="hover:shadow-admin transition-shadow">
+            <Card className="hover:shadow-soft transition-shadow">
               <CardContent className="p-4 text-center">
                 <p className="text-3xl font-bold text-foreground en-num">{stat.value}</p>
                 <p className="text-sm text-muted-foreground">{stat.label}</p>
@@ -109,10 +105,10 @@ const AdminEmployeesPage = () => {
         <CardContent className="p-4">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input 
                 placeholder="البحث بالاسم أو البريد..." 
-                className="pr-10"
+                className="ps-10"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -143,12 +139,12 @@ const AdminEmployeesPage = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-right">الموظف</TableHead>
-                <TableHead className="text-right">المنصب</TableHead>
-                <TableHead className="text-right">الشركة</TableHead>
-                <TableHead className="text-right">القسم</TableHead>
-                <TableHead className="text-right">الحالة</TableHead>
-                <TableHead className="text-right">تاريخ التعيين</TableHead>
+                <TableHead className="text-start">الموظف</TableHead>
+                <TableHead className="text-start">المنصب</TableHead>
+                <TableHead className="text-start">الشركة</TableHead>
+                <TableHead className="text-start">القسم</TableHead>
+                <TableHead className="text-start">الحالة</TableHead>
+                <TableHead className="text-start">تاريخ التعيين</TableHead>
                 <TableHead className="w-12"></TableHead>
               </TableRow>
             </TableHeader>
@@ -158,7 +154,7 @@ const AdminEmployeesPage = () => {
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="w-10 h-10">
-                        <AvatarFallback className="bg-admin/10 text-admin">
+                        <AvatarFallback className="bg-primary/10 text-primary">
                           {employee.firstName[0]}{employee.lastName[0]}
                         </AvatarFallback>
                       </Avatar>
@@ -182,21 +178,21 @@ const AdminEmployeesPage = () => {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" className="hover:bg-primary/10">
                           <MoreVertical className="w-4 h-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
-                          <Eye className="w-4 h-4 ml-2" />
+                        <DropdownMenuItem className="cursor-pointer hover:bg-secondary">
+                          <Eye className="w-4 h-4 me-2" />
                           عرض التفاصيل
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Edit className="w-4 h-4 ml-2" />
+                        <DropdownMenuItem className="cursor-pointer hover:bg-secondary">
+                          <Edit className="w-4 h-4 me-2" />
                           تعديل
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          <Trash2 className="w-4 h-4 ml-2" />
+                        <DropdownMenuItem className="text-destructive cursor-pointer hover:bg-destructive/10">
+                          <Trash2 className="w-4 h-4 me-2" />
                           حذف
                         </DropdownMenuItem>
                       </DropdownMenuContent>
