@@ -7,7 +7,7 @@ export function DashboardLayout() {
   return (
     <div dir="rtl">
       <SidebarProvider>
-        <div className="min-h-screen flex flex-row-reverse w-full bg-background">
+        <div className="min-h-screen flex w-full bg-background">
           <DashboardSidebar />
           <div className="flex-1 flex flex-col min-h-screen">
             <DashboardHeader />
