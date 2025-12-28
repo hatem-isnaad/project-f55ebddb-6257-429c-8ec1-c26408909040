@@ -69,8 +69,8 @@ export function AdminSidebar() {
           "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 w-full",
           collapsed ? "justify-center" : "",
           active 
-            ? "bg-admin text-admin-foreground shadow-admin" 
-            : "text-muted-foreground hover:bg-admin-light hover:text-foreground"
+            ? "bg-primary text-primary-foreground shadow-soft" 
+            : "text-muted-foreground hover:bg-sidebar-hover hover:text-foreground"
         )}
       >
         <item.icon className="w-5 h-5 flex-shrink-0" />
@@ -104,22 +104,22 @@ export function AdminSidebar() {
             variant="ghost"
             size="icon"
             onClick={toggleSidebar}
-            className="h-8 w-8 hover:bg-admin-light transition-colors flex-shrink-0"
+            className="h-8 w-8 hover:bg-sidebar-hover transition-colors flex-shrink-0"
           >
             {collapsed ? (
-              <PanelRightOpen className="w-5 h-5 text-admin" />
+              <PanelRightOpen className="w-5 h-5 text-primary" />
             ) : (
-              <PanelRightClose className="w-5 h-5 text-admin" />
+              <PanelRightClose className="w-5 h-5 text-primary" />
             )}
           </Button>
           {!collapsed && (
             <NavLink to="/admin" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl gradient-admin flex items-center justify-center shadow-admin flex-shrink-0">
-                <Shield className="w-5 h-5 text-admin-foreground" />
+              <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-soft flex-shrink-0">
+                <Shield className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
                 <span className="text-lg font-bold text-foreground">دوام</span>
-                <p className="text-xs text-admin">المدير العام</p>
+                <p className="text-xs text-primary">المدير العام</p>
               </div>
             </NavLink>
           )}
@@ -171,8 +171,8 @@ export function AdminSidebar() {
           "flex items-center gap-3",
           collapsed && "justify-center"
         )}>
-          <div className="w-10 h-10 rounded-full bg-admin/10 flex items-center justify-center flex-shrink-0 ring-2 ring-admin/20">
-            <Shield className="w-5 h-5 text-admin" />
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 ring-2 ring-primary/20">
+            <Shield className="w-5 h-5 text-primary" />
           </div>
           {!collapsed && (
             <>

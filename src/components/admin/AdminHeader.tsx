@@ -27,7 +27,7 @@ export function AdminHeader() {
       <div className="flex items-center justify-between h-16 px-4 lg:px-6">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <Badge className="gap-1 bg-admin hover:bg-admin/90 text-admin-foreground">
+            <Badge className="gap-1 bg-primary hover:bg-primary/90 text-primary-foreground">
               <Shield className="w-3 h-3" />
               وضع المدير العام
             </Badge>
@@ -52,7 +52,7 @@ export function AdminHeader() {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="gap-2 border-admin/30 text-admin hover:bg-admin/10 hover:text-admin hover:border-admin/50 transition-colors"
+                className="gap-2 border-primary/30 text-primary hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-colors"
               >
                 <User className="w-4 h-4" />
                 <span className="hidden md:inline">انتحال هوية</span>
@@ -76,7 +76,7 @@ export function AdminHeader() {
           {/* Notifications */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative hover:bg-admin/10">
+              <Button variant="ghost" size="icon" className="relative hover:bg-primary/10">
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
                   <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground rounded-full text-xs flex items-center justify-center en-num">
@@ -99,9 +99,9 @@ export function AdminHeader() {
           {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-admin/10">
-                <Avatar className="w-8 h-8 ring-2 ring-admin/20">
-                  <AvatarFallback className="bg-admin/10 text-admin text-sm">
+              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
+                <Avatar className="w-8 h-8 ring-2 ring-primary/20">
+                  <AvatarFallback className="bg-primary/10 text-primary text-sm">
                     <Shield className="w-4 h-4" />
                   </AvatarFallback>
                 </Avatar>
