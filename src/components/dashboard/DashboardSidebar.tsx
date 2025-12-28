@@ -52,8 +52,9 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar 
-      className="border-l border-border bg-card"
+      className="border-r border-border bg-card"
       collapsible="icon"
+      side="right"
     >
       <SidebarHeader className="p-4 border-b border-border">
         <NavLink to="/" className="flex items-center gap-3">
