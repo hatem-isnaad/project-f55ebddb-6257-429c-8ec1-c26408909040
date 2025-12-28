@@ -28,6 +28,11 @@ import AddCompanyPage from "./pages/admin/AddCompanyPage";
 import AdminUsersPage from "./pages/admin/AdminUsersPage";
 import AdminReportsPage from "./pages/admin/AdminReportsPage";
 import AdminSettingsPage from "./pages/admin/AdminSettingsPage";
+import AdminEmployeesPage from "./pages/admin/AdminEmployeesPage";
+import AdminTasksPage from "./pages/admin/AdminTasksPage";
+import AdminAttendancePage from "./pages/admin/AdminAttendancePage";
+import AdminLeavesPage from "./pages/admin/AdminLeavesPage";
+import AdminTrackingSettingsPage from "./pages/admin/AdminTrackingSettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -46,7 +51,7 @@ const App = () => (
             <Route index element={<CompanyDashboard />} />
             <Route path="sub-companies" element={<SubCompaniesPage />} />
             <Route path="employees" element={<EmployeesPage />} />
-            <Route path="employees/new" element={<AddEmployeePage />} />
+            <Route path="employees/add" element={<AddEmployeePage />} />
             <Route path="tasks" element={<TasksPage />} />
             <Route path="attendance" element={<AttendancePage />} />
             <Route path="leaves" element={<LeavesPage />} />
@@ -58,10 +63,15 @@ const App = () => (
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="companies" element={<AdminCompaniesPage />} />
-            <Route path="companies/new" element={<AddCompanyPage />} />
+            <Route path="companies/add" element={<AddCompanyPage />} />
             <Route path="users" element={<AdminUsersPage />} />
+            <Route path="employees" element={<AdminEmployeesPage />} />
+            <Route path="tasks" element={<AdminTasksPage />} />
+            <Route path="attendance" element={<AdminAttendancePage />} />
+            <Route path="leaves" element={<AdminLeavesPage />} />
             <Route path="reports" element={<AdminReportsPage />} />
             <Route path="settings" element={<AdminSettingsPage />} />
+            <Route path="tracking-settings" element={<AdminTrackingSettingsPage />} />
           </Route>
 
           {/* Catch-all */}
