@@ -36,14 +36,34 @@
 
     --radius: 0.75rem;
 
+    /* Company Dashboard Colors - Blue Theme */
+    --company-primary: 217 91% 50%;
+    --company-primary-hover: 217 91% 45%;
+    --company-primary-foreground: 0 0% 100%;
+    --company-sidebar: 0 0% 100%;
+    --company-sidebar-hover: 217 91% 97%;
+    --company-sidebar-active: 217 91% 50%;
+    --company-sidebar-active-foreground: 0 0% 100%;
+
+    /* Admin Dashboard Colors - Indigo/Purple Theme */
+    --admin-primary: 263 70% 50%;
+    --admin-primary-hover: 263 70% 45%;
+    --admin-primary-foreground: 0 0% 100%;
+    --admin-sidebar: 0 0% 100%;
+    --admin-sidebar-hover: 263 70% 97%;
+    --admin-sidebar-active: 263 70% 50%;
+    --admin-sidebar-active-foreground: 0 0% 100%;
+
     /* Custom tokens */
     --gradient-primary: linear-gradient(135deg, hsl(217 91% 50%), hsl(186 91% 45%));
+    --gradient-admin: linear-gradient(135deg, hsl(263 70% 50%), hsl(290 70% 50%));
     --gradient-hero: linear-gradient(180deg, hsl(210 20% 98%) 0%, hsl(217 91% 97%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 40% 98%) 100%);
     
     --shadow-soft: 0 4px 20px -4px hsl(217 91% 50% / 0.15);
     --shadow-glow: 0 0 40px hsl(186 91% 45% / 0.2);
     --shadow-card: 0 8px 32px -8px hsl(222 47% 11% / 0.1);
+    --shadow-admin: 0 4px 20px -4px hsl(263 70% 50% / 0.15);
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 47% 11%;
@@ -61,6 +81,14 @@
     --warning-foreground: 0 0% 100%;
     --info: 199 89% 48%;
     --info-foreground: 0 0% 100%;
+
+    /* Kanban Colors */
+    --kanban-pending: 210 40% 96%;
+    --kanban-pending-border: 214 32% 85%;
+    --kanban-progress: 38 92% 95%;
+    --kanban-progress-border: 38 92% 70%;
+    --kanban-completed: 142 76% 95%;
+    --kanban-completed-border: 142 76% 50%;
   }
 
   .dark {
@@ -92,13 +120,33 @@
     --input: 217 33% 17%;
     --ring: 217 91% 60%;
 
+    /* Company Dashboard Colors - Blue Theme Dark */
+    --company-primary: 217 91% 60%;
+    --company-primary-hover: 217 91% 55%;
+    --company-primary-foreground: 222 47% 11%;
+    --company-sidebar: 222 47% 11%;
+    --company-sidebar-hover: 217 33% 20%;
+    --company-sidebar-active: 217 91% 60%;
+    --company-sidebar-active-foreground: 222 47% 11%;
+
+    /* Admin Dashboard Colors - Indigo/Purple Theme Dark */
+    --admin-primary: 263 70% 60%;
+    --admin-primary-hover: 263 70% 55%;
+    --admin-primary-foreground: 222 47% 11%;
+    --admin-sidebar: 222 47% 11%;
+    --admin-sidebar-hover: 263 33% 20%;
+    --admin-sidebar-active: 263 70% 60%;
+    --admin-sidebar-active-foreground: 222 47% 11%;
+
     --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(186 91% 50%));
+    --gradient-admin: linear-gradient(135deg, hsl(263 70% 60%), hsl(290 70% 60%));
     --gradient-hero: linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 47% 12%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(222 47% 11%) 0%, hsl(222 47% 14%) 100%);
 
     --shadow-soft: 0 4px 20px -4px hsl(217 91% 60% / 0.2);
     --shadow-glow: 0 0 40px hsl(186 91% 50% / 0.15);
     --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.3);
+    --shadow-admin: 0 4px 20px -4px hsl(263 70% 60% / 0.2);
 
     --sidebar-background: 222 47% 11%;
     --sidebar-foreground: 210 40% 98%;
@@ -115,6 +163,14 @@
     --warning-foreground: 222 47% 11%;
     --info: 199 89% 55%;
     --info-foreground: 222 47% 11%;
+
+    /* Kanban Colors Dark */
+    --kanban-pending: 217 33% 17%;
+    --kanban-pending-border: 217 33% 30%;
+    --kanban-progress: 38 30% 20%;
+    --kanban-progress-border: 38 60% 40%;
+    --kanban-completed: 142 30% 20%;
+    --kanban-completed-border: 142 60% 40%;
   }
 }
 
@@ -130,11 +186,28 @@
   body {
     @apply bg-background text-foreground font-cairo antialiased;
   }
+
+  /* Force English numbers */
+  .en-num {
+    font-feature-settings: "tnum" on, "lnum" on;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="number"] {
+    direction: ltr;
+    text-align: right;
+  }
 }
 
 @layer utilities {
   .gradient-primary {
     background: var(--gradient-primary);
+  }
+  
+  .gradient-admin {
+    background: var(--gradient-admin);
   }
   
   .gradient-hero {
@@ -157,8 +230,19 @@
     box-shadow: var(--shadow-card);
   }
 
+  .shadow-admin {
+    box-shadow: var(--shadow-admin);
+  }
+
   .text-gradient {
     background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-admin {
+    background: var(--gradient-admin);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
