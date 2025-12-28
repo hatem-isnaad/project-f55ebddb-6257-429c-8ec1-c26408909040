@@ -1,34 +1,43 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+  DragOverEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { 
   ListTodo, 
   Columns3, 
   Plus, 
   Search, 
-  Filter,
   Calendar,
   Clock,
-  User,
   MoreVertical,
   Play,
   Pause,
   CheckCircle2,
   Circle,
-  AlertCircle
+  GripVertical,
+  AlertTriangle
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,11 +50,26 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { mockTasks, mockEmployees } from "@/data/mockData";
 import { Task, TaskStatus, TaskPriority } from "@/types";
+import { DatePicker } from "@/components/ui/date-picker";
+import { SearchableSelect } from "@/components/ui/searchable-select";
+import { cn } from "@/lib/utils";
 
 const getStatusIcon = (status: TaskStatus) => {
   switch (status) {
@@ -65,24 +89,183 @@ const getStatusLabel = (status: TaskStatus) => {
 
 const getPriorityBadge = (priority: TaskPriority) => {
   switch (priority) {
-    case 'high': return <Badge variant="destructive">عالية</Badge>;
-    case 'medium': return <Badge variant="default">متوسطة</Badge>;
-    default: return <Badge variant="secondary">منخفضة</Badge>;
+    case 'high': return <Badge variant="destructive" className="text-xs">عالية</Badge>;
+    case 'medium': return <Badge className="bg-warning text-warning-foreground text-xs">متوسطة</Badge>;
+    default: return <Badge variant="secondary" className="text-xs">منخفضة</Badge>;
   }
 };
 
 const formatTime = (minutes: number) => {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
-  return `${hours}س ${mins}د`;
+  return `${hours}h ${mins}m`;
 };
 
+interface SortableTaskCardProps {
+  task: Task;
+  onMenuAction: (action: string, task: Task) => void;
+}
+
+function SortableTaskCard({ task, onMenuAction }: SortableTaskCardProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={cn(
+        "p-4 bg-card border border-border rounded-lg transition-all duration-200",
+        isDragging ? "opacity-50 shadow-lg scale-105" : "hover:shadow-soft"
+      )}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <button
+            {...attributes}
+            {...listeners}
+            className="cursor-grab active:cursor-grabbing p-1 hover:bg-secondary rounded"
+          >
+            <GripVertical className="w-4 h-4 text-muted-foreground" />
+          </button>
+          {getStatusIcon(task.status)}
+          <h3 className="font-medium text-foreground text-sm">{task.title}</h3>
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-7 w-7">
+              <MoreVertical className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onMenuAction('start', task)}>
+              <Play className="w-4 h-4 ml-2" />
+              بدء العمل
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onMenuAction('pause', task)}>
+              <Pause className="w-4 h-4 ml-2" />
+              إيقاف مؤقت
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onMenuAction('complete', task)}>
+              <CheckCircle2 className="w-4 h-4 ml-2" />
+              إكمال
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      
+      <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{task.description}</p>
+      
+      <div className="flex items-center gap-2 mb-3 flex-wrap">
+        {getPriorityBadge(task.priority)}
+        {task.timeSpent > 0 && (
+          <Badge variant="outline" className="gap-1 text-xs en-num">
+            <Clock className="w-3 h-3" />
+            {formatTime(task.timeSpent)}
+          </Badge>
+        )}
+      </div>
+      
+      <div className="flex items-center justify-between pt-3 border-t border-border">
+        <div className="flex items-center gap-2">
+          <Avatar className="w-6 h-6">
+            <AvatarFallback className="text-xs bg-primary/10 text-primary">
+              {task.assigneeName.split(' ').map(n => n[0]).join('')}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-xs text-muted-foreground">{task.assigneeName}</span>
+        </div>
+        <div className="flex items-center gap-1 text-xs text-muted-foreground en-num">
+          <Calendar className="w-3 h-3" />
+          {task.dueDate}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TaskCardOverlay({ task }: { task: Task }) {
+  return (
+    <div className="p-4 bg-card border-2 border-primary rounded-lg shadow-lg opacity-90">
+      <div className="flex items-center gap-2 mb-2">
+        {getStatusIcon(task.status)}
+        <h3 className="font-medium text-foreground text-sm">{task.title}</h3>
+      </div>
+      <p className="text-xs text-muted-foreground line-clamp-1">{task.description}</p>
+    </div>
+  );
+}
+
+interface KanbanColumnProps {
+  title: string;
+  tasks: Task[];
+  status: TaskStatus;
+  onMenuAction: (action: string, task: Task) => void;
+}
+
+function KanbanColumn({ title, tasks, status, onMenuAction }: KanbanColumnProps) {
+  const bgColor = status === 'pending' 
+    ? 'bg-kanban-pending border-kanban-pending-border' 
+    : status === 'in_progress' 
+    ? 'bg-kanban-progress border-kanban-progress-border' 
+    : 'bg-kanban-completed border-kanban-completed-border';
+
+  return (
+    <div className={cn("flex-1 min-w-[320px] rounded-xl p-4 border-2", bgColor)}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          {getStatusIcon(status)}
+          <h3 className="font-semibold text-foreground">{title}</h3>
+          <Badge variant="secondary" className="text-xs en-num">{tasks.length}</Badge>
+        </div>
+      </div>
+      <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
+        <div className="space-y-3 min-h-[200px]">
+          {tasks.map((task) => (
+            <SortableTaskCard key={task.id} task={task} onMenuAction={onMenuAction} />
+          ))}
+        </div>
+      </SortableContext>
+    </div>
+  );
+}
+
 const TasksPage = () => {
-  const [tasks] = useState<Task[]>(mockTasks);
+  const [tasks, setTasks] = useState<Task[]>(mockTasks);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterPriority, setFilterPriority] = useState<string>("all");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [pendingDrag, setPendingDrag] = useState<{ taskId: string; newStatus: TaskStatus } | null>(null);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+
+  // Form state
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [newTaskAssignee, setNewTaskAssignee] = useState("");
+  const [newTaskPriority, setNewTaskPriority] = useState("");
+  const [newTaskStartDate, setNewTaskStartDate] = useState<Date>();
+  const [newTaskDueDate, setNewTaskDueDate] = useState<Date>();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title.includes(searchQuery) || task.description.includes(searchQuery);
@@ -104,86 +287,139 @@ const TasksPage = () => {
     { label: "معلقة", value: tasksByStatus.pending.length, color: "muted" },
   ];
 
-  const TaskCard = ({ task }: { task: Task }) => (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="p-4 bg-card border border-border rounded-lg hover:shadow-soft transition-shadow"
-    >
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-2">
-          {getStatusIcon(task.status)}
-          <h3 className="font-medium text-foreground">{task.title}</h3>
-        </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <MoreVertical className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <Play className="w-4 h-4 ml-2" />
-              بدء العمل
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Pause className="w-4 h-4 ml-2" />
-              إيقاف مؤقت
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <CheckCircle2 className="w-4 h-4 ml-2" />
-              إكمال
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      
-      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{task.description}</p>
-      
-      <div className="flex items-center gap-2 mb-3">
-        {getPriorityBadge(task.priority)}
-        {task.timeSpent > 0 && (
-          <Badge variant="outline" className="gap-1">
-            <Clock className="w-3 h-3" />
-            {formatTime(task.timeSpent)}
-          </Badge>
-        )}
-      </div>
-      
-      <div className="flex items-center justify-between pt-3 border-t border-border">
-        <div className="flex items-center gap-2">
-          <Avatar className="w-6 h-6">
-            <AvatarFallback className="text-xs bg-primary/10 text-primary">
-              {task.assigneeName.split(' ').map(n => n[0]).join('')}
-            </AvatarFallback>
-          </Avatar>
-          <span className="text-xs text-muted-foreground">{task.assigneeName}</span>
-        </div>
-        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Calendar className="w-3 h-3" />
-          {task.dueDate}
-        </div>
-      </div>
-    </motion.div>
-  );
+  const employeeOptions = mockEmployees.map(emp => ({
+    value: emp.id,
+    label: `${emp.firstName} ${emp.lastName}`
+  }));
 
-  const KanbanColumn = ({ title, tasks, status }: { title: string; tasks: Task[]; status: TaskStatus }) => (
-    <div className="flex-1 min-w-[300px]">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          {getStatusIcon(status)}
-          <h3 className="font-semibold text-foreground">{title}</h3>
-          <Badge variant="secondary" className="text-xs">{tasks.length}</Badge>
-        </div>
-      </div>
-      <div className="space-y-3">
-        {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
-        ))}
-      </div>
-    </div>
-  );
+  const priorityOptions = [
+    { value: 'high', label: 'عالية' },
+    { value: 'medium', label: 'متوسطة' },
+    { value: 'low', label: 'منخفضة' },
+  ];
+
+  const statusOptions = [
+    { value: 'all', label: 'جميع الحالات' },
+    { value: 'pending', label: 'معلقة' },
+    { value: 'in_progress', label: 'قيد التنفيذ' },
+    { value: 'completed', label: 'مكتملة' },
+  ];
+
+  const priorityFilterOptions = [
+    { value: 'all', label: 'جميع الأولويات' },
+    { value: 'high', label: 'عالية' },
+    { value: 'medium', label: 'متوسطة' },
+    { value: 'low', label: 'منخفضة' },
+  ];
+
+  const handleDragStart = (event: DragStartEvent) => {
+    const task = tasks.find(t => t.id === event.active.id);
+    setActiveTask(task || null);
+  };
+
+  const handleDragOver = (event: DragOverEvent) => {
+    // Optional: Add visual feedback during drag
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    setActiveTask(null);
+
+    if (!over) return;
+
+    const taskId = active.id as string;
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    // Determine new status based on where it was dropped
+    let newStatus: TaskStatus | null = null;
+    
+    // Check if dropped on a task in a different column
+    const overTask = tasks.find(t => t.id === over.id);
+    if (overTask && overTask.status !== task.status) {
+      newStatus = overTask.status;
+    }
+
+    // Check if dropped directly in a column
+    const overElement = document.elementFromPoint(event.activatorEvent instanceof MouseEvent ? event.activatorEvent.clientX : 0, event.activatorEvent instanceof MouseEvent ? event.activatorEvent.clientY : 0);
+    const columnElement = overElement?.closest('[data-status]');
+    if (columnElement) {
+      const columnStatus = columnElement.getAttribute('data-status') as TaskStatus;
+      if (columnStatus && columnStatus !== task.status) {
+        newStatus = columnStatus;
+      }
+    }
+
+    // If status would change, show confirmation dialog
+    if (newStatus && newStatus !== task.status) {
+      setPendingDrag({ taskId, newStatus });
+      setIsConfirmDialogOpen(true);
+    }
+  };
+
+  const confirmStatusChange = () => {
+    if (pendingDrag) {
+      setTasks(tasks.map(t => 
+        t.id === pendingDrag.taskId 
+          ? { ...t, status: pendingDrag.newStatus }
+          : t
+      ));
+      setPendingDrag(null);
+    }
+    setIsConfirmDialogOpen(false);
+  };
+
+  const cancelStatusChange = () => {
+    setPendingDrag(null);
+    setIsConfirmDialogOpen(false);
+  };
+
+  const handleMenuAction = (action: string, task: Task) => {
+    let newStatus: TaskStatus = task.status;
+    if (action === 'start') newStatus = 'in_progress';
+    if (action === 'complete') newStatus = 'completed';
+    if (action === 'pause') newStatus = 'pending';
+
+    if (newStatus !== task.status) {
+      setPendingDrag({ taskId: task.id, newStatus });
+      setIsConfirmDialogOpen(true);
+    }
+  };
+
+  const handleAddTask = () => {
+    if (!newTaskTitle.trim()) return;
+
+    const employee = mockEmployees.find(e => e.id === newTaskAssignee);
+    const newTask: Task = {
+      id: String(Date.now()),
+      title: newTaskTitle,
+      description: newTaskDescription,
+      status: 'pending',
+      priority: (newTaskPriority as TaskPriority) || 'medium',
+      assigneeId: newTaskAssignee || '1',
+      assigneeName: employee ? `${employee.firstName} ${employee.lastName}` : 'غير محدد',
+      companyId: '1',
+      startDate: newTaskStartDate ? newTaskStartDate.toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+      dueDate: newTaskDueDate ? newTaskDueDate.toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+      timeSpent: 0,
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+
+    setTasks([...tasks, newTask]);
+    setIsAddDialogOpen(false);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setNewTaskTitle("");
+    setNewTaskDescription("");
+    setNewTaskAssignee("");
+    setNewTaskPriority("");
+    setNewTaskStartDate(undefined);
+    setNewTaskDueDate(undefined);
+  };
+
+  const pendingTask = pendingDrag ? tasks.find(t => t.id === pendingDrag.taskId) : null;
 
   return (
     <div className="space-y-6">
@@ -195,7 +431,7 @@ const TasksPage = () => {
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button className="bg-primary hover:bg-primary/90">
               <Plus className="w-4 h-4 ml-2" />
               مهمة جديدة
             </Button>
@@ -203,59 +439,70 @@ const TasksPage = () => {
           <DialogContent className="max-w-lg">
             <DialogHeader>
               <DialogTitle>إضافة مهمة جديدة</DialogTitle>
+              <DialogDescription>
+                أدخل تفاصيل المهمة الجديدة
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
                 <Label>عنوان المهمة</Label>
-                <Input placeholder="أدخل عنوان المهمة" />
+                <Input 
+                  placeholder="أدخل عنوان المهمة" 
+                  value={newTaskTitle}
+                  onChange={(e) => setNewTaskTitle(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label>الوصف</Label>
-                <Textarea placeholder="أدخل وصف المهمة" rows={3} />
+                <Textarea 
+                  placeholder="أدخل وصف المهمة" 
+                  rows={3}
+                  value={newTaskDescription}
+                  onChange={(e) => setNewTaskDescription(e.target.value)}
+                />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>تعيين إلى</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="اختر الموظف" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {mockEmployees.map((emp) => (
-                        <SelectItem key={emp.id} value={emp.id}>
-                          {emp.firstName} {emp.lastName}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <SearchableSelect
+                    options={employeeOptions}
+                    value={newTaskAssignee}
+                    onValueChange={setNewTaskAssignee}
+                    placeholder="اختر الموظف"
+                    searchPlaceholder="ابحث عن موظف..."
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>الأولوية</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="اختر الأولوية" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="high">عالية</SelectItem>
-                      <SelectItem value="medium">متوسطة</SelectItem>
-                      <SelectItem value="low">منخفضة</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <SearchableSelect
+                    options={priorityOptions}
+                    value={newTaskPriority}
+                    onValueChange={setNewTaskPriority}
+                    placeholder="اختر الأولوية"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>تاريخ البداية</Label>
-                  <Input type="date" />
+                  <DatePicker
+                    date={newTaskStartDate}
+                    onDateChange={setNewTaskStartDate}
+                    placeholder="اختر تاريخ البداية"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>تاريخ الانتهاء</Label>
-                  <Input type="date" />
+                  <DatePicker
+                    date={newTaskDueDate}
+                    onDateChange={setNewTaskDueDate}
+                    placeholder="اختر تاريخ الانتهاء"
+                  />
                 </div>
               </div>
             </div>
-            <div className="flex justify-end gap-2">
+            <DialogFooter>
               <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>إلغاء</Button>
-              <Button onClick={() => setIsAddDialogOpen(false)}>إنشاء</Button>
-            </div>
+              <Button onClick={handleAddTask}>إنشاء</Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
@@ -269,9 +516,9 @@ const TasksPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card>
+            <Card className="hover:shadow-soft transition-shadow">
               <CardContent className="p-4 text-center">
-                <p className="text-3xl font-bold text-foreground">{stat.value}</p>
+                <p className="text-3xl font-bold text-foreground en-num">{stat.value}</p>
                 <p className="text-sm text-muted-foreground">{stat.label}</p>
               </CardContent>
             </Card>
@@ -292,28 +539,22 @@ const TasksPage = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-full md:w-40">
-                <SelectValue placeholder="الحالة" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">جميع الحالات</SelectItem>
-                <SelectItem value="pending">معلقة</SelectItem>
-                <SelectItem value="in_progress">قيد التنفيذ</SelectItem>
-                <SelectItem value="completed">مكتملة</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={filterPriority} onValueChange={setFilterPriority}>
-              <SelectTrigger className="w-full md:w-40">
-                <SelectValue placeholder="الأولوية" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">جميع الأولويات</SelectItem>
-                <SelectItem value="high">عالية</SelectItem>
-                <SelectItem value="medium">متوسطة</SelectItem>
-                <SelectItem value="low">منخفضة</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="w-full md:w-48">
+              <SearchableSelect
+                options={statusOptions}
+                value={filterStatus}
+                onValueChange={setFilterStatus}
+                placeholder="الحالة"
+              />
+            </div>
+            <div className="w-full md:w-48">
+              <SearchableSelect
+                options={priorityFilterOptions}
+                value={filterPriority}
+                onValueChange={setFilterPriority}
+                placeholder="الأولوية"
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -332,11 +573,43 @@ const TasksPage = () => {
         </TabsList>
 
         <TabsContent value="kanban">
-          <div className="flex gap-6 overflow-x-auto pb-4">
-            <KanbanColumn title="معلقة" tasks={tasksByStatus.pending} status="pending" />
-            <KanbanColumn title="قيد التنفيذ" tasks={tasksByStatus.in_progress} status="in_progress" />
-            <KanbanColumn title="مكتملة" tasks={tasksByStatus.completed} status="completed" />
-          </div>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}
+          >
+            <div className="flex gap-6 overflow-x-auto pb-4">
+              <div data-status="pending">
+                <KanbanColumn 
+                  title="معلقة" 
+                  tasks={tasksByStatus.pending} 
+                  status="pending"
+                  onMenuAction={handleMenuAction}
+                />
+              </div>
+              <div data-status="in_progress">
+                <KanbanColumn 
+                  title="قيد التنفيذ" 
+                  tasks={tasksByStatus.in_progress} 
+                  status="in_progress"
+                  onMenuAction={handleMenuAction}
+                />
+              </div>
+              <div data-status="completed">
+                <KanbanColumn 
+                  title="مكتملة" 
+                  tasks={tasksByStatus.completed} 
+                  status="completed"
+                  onMenuAction={handleMenuAction}
+                />
+              </div>
+            </div>
+            <DragOverlay>
+              {activeTask ? <TaskCardOverlay task={activeTask} /> : null}
+            </DragOverlay>
+          </DndContext>
         </TabsContent>
 
         <TabsContent value="list">
@@ -362,7 +635,7 @@ const TasksPage = () => {
                             </Avatar>
                             <span className="text-sm text-muted-foreground hidden md:inline">{task.assigneeName}</span>
                           </div>
-                          <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-1 text-sm text-muted-foreground en-num">
                             <Calendar className="w-4 h-4" />
                             {task.dueDate}
                           </div>
@@ -388,6 +661,29 @@ const TasksPage = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Confirmation Dialog */}
+      <AlertDialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-warning" />
+              تأكيد تغيير الحالة
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {pendingTask && pendingDrag && (
+                <>
+                  هل أنت متأكد من تغيير حالة المهمة "{pendingTask.title}" من "{getStatusLabel(pendingTask.status)}" إلى "{getStatusLabel(pendingDrag.newStatus)}"؟
+                </>
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={cancelStatusChange}>إلغاء</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmStatusChange}>تأكيد</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
