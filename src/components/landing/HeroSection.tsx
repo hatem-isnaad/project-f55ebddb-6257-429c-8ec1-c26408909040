@@ -1,7 +1,7 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Clock, MapPin, CheckCircle2, BarChart3, Users, Zap } from "lucide-react";
-
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen gradient-hero overflow-hidden pt-20">
@@ -53,8 +53,8 @@ const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <Button variant="hero" size="xl">
-                ابدأ تجربتك المجانية
+              <Button variant="hero" size="xl" asChild>
+                <Link to="/dashboard">ابدأ تجربتك المجانية</Link>
               </Button>
               <Button variant="glass" size="xl">
                 شاهد العرض التوضيحي
